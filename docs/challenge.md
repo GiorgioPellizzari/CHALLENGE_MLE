@@ -4,5 +4,5 @@
 
 -En la transcripción del código a .py se corrigieron un par de detalles en los def() entregados. Ademas, en los tests realizados se arreglo el path al data.csv y al momento de instanciar el modelo se hizo un model.fit inicial con los datos para el test de predict.
 
-
+-Desarrollando la API, se modificaron nuevamente los requirements que estaban generando conflicto en el enviroment, se definio la API para esperar una predicción a la vez. Asi cumplir con los test, pero me genera la duda si este es el caso general que se espera. De no serlo bastaria iterar en los vuelos en vez de solo revisar el primero...
 
