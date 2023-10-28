@@ -31,6 +31,7 @@ class DelayModel:
             or
             pd.DataFrame: features.
         """
+
         def get_period_day(date):
             date_time = datetime.strptime(date, '%Y-%m-%d %H:%M:%S').time()
             morning_min = datetime.strptime("05:00", '%H:%M').time()
@@ -69,18 +70,21 @@ class DelayModel:
                 (fecha >= range4_min and fecha <= range4_max)):
                 return 1
             else:
-                return 0    
-        data['period_day'] = data['Fecha-I'].apply(get_period_day)
-        data['high_season'] = data['Fecha-I'].apply(is_high_season)
-
+                return 0
+         
         def get_min_diff(data):
             fecha_o = datetime.strptime(data['Fecha-O'], '%Y-%m-%d %H:%M:%S')
             fecha_i = datetime.strptime(data['Fecha-I'], '%Y-%m-%d %H:%M:%S')
             min_diff = ((fecha_o - fecha_i).total_seconds())/60
             return min_diff
-        data['min_diff'] = data.apply(get_min_diff, axis = 1)
-        threshold_in_minutes = 15
-        data['delay'] = np.where(data['min_diff'] > threshold_in_minutes, 1, 0)
+        
+        if target_column is not None:
+            data['period_day'] = data['Fecha-I'].apply(get_period_day)
+            data['high_season'] = data['Fecha-I'].apply(is_high_season)
+            data['min_diff'] = data.apply(get_min_diff, axis = 1)
+            threshold_in_minutes = 15
+            data['delay'] = np.where(data['min_diff'] > threshold_in_minutes, 1, 0)
+
         features = pd.concat([
                 pd.get_dummies(data['OPERA'], prefix = 'OPERA'),
                 pd.get_dummies(data['TIPOVUELO'], prefix = 'TIPOVUELO'), 
