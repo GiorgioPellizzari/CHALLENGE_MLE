@@ -5,3 +5,7 @@ numpy~=1.22.4
 pandas~=1.3.5
 scikit-learn~=1.3.0
 xgboost
+asyncio
+starlette 
+anyio~=3.7.1
+httpx

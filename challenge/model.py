@@ -31,7 +31,7 @@ class DelayModel:
             or
             pd.DataFrame: features.
         """
-
+        #Funciones de modificación en la fechas y creación de nuevas features, extraídas del .ipynb sin modificaciones
         def get_period_day(date):
             date_time = datetime.strptime(date, '%Y-%m-%d %H:%M:%S').time()
             morning_min = datetime.strptime("05:00", '%H:%M').time()
@@ -78,6 +78,7 @@ class DelayModel:
             min_diff = ((fecha_o - fecha_i).total_seconds())/60
             return min_diff
         
+        #Solo para cuando se trabaja incluyendo un target, se hacen las modificaciones a "delay"
         if target_column is not None:
             data['period_day'] = data['Fecha-I'].apply(get_period_day)
             data['high_season'] = data['Fecha-I'].apply(is_high_season)
@@ -85,12 +86,15 @@ class DelayModel:
             threshold_in_minutes = 15
             data['delay'] = np.where(data['min_diff'] > threshold_in_minutes, 1, 0)
 
+        #Se realizan los one-hot-encoding correspondientes
         features = pd.concat([
                 pd.get_dummies(data['OPERA'], prefix = 'OPERA'),
                 pd.get_dummies(data['TIPOVUELO'], prefix = 'TIPOVUELO'), 
                 pd.get_dummies(data['MES'], prefix = 'MES')], 
                 axis = 1
             )
+        
+        #Se trabaja con las 10 features mas importantes
         top_10_features = [
             "OPERA_Latin American Wings", 
             "MES_7",
@@ -122,10 +126,11 @@ class DelayModel:
             features (pd.DataFrame): preprocessed data.
             target (pd.DataFrame): target.
         """
+
         target=target[target.columns[0]]
         n_y0 = len(target[target == 0])
         n_y1 = len(target[target == 1])
-
+        #Se realiza la LogisticRegression, considerando balanceo de clases y las top features
         self._model=LogisticRegression(class_weight={1: n_y0/len(target), 0: n_y1/len(target)})
         self._model.fit(features, target)
         return None
@@ -143,6 +148,7 @@ class DelayModel:
         Returns:
             (List[int]): predicted targets.
         """
+        #En caso de no haber modelo entrendado, retorna una lista vacia.
         if self._model is None:
             return []
            
