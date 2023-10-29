@@ -1,13 +1,15 @@
 import fastapi
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
+import uvicorn
 
 from challenge.model import DelayModel
 import pandas as pd
 
 
 app = fastapi.FastAPI()
-
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=5200)
 #Se inicializa el DelayModel, haciendo fit sobre data.csv para tener un modelo entrenado en la API.
 model=DelayModel()
 data = pd.read_csv('data/data.csv')

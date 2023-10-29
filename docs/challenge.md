@@ -6,3 +6,5 @@
 
 -Desarrollando la API, se modificaron nuevamente los requirements que estaban generando conflicto en el enviroment, se definio la API para esperar una predicción a la vez. Asi cumplir con los test, pero me genera la duda si este es el caso general que se espera. De no serlo bastaria iterar en los vuelos en vez de solo revisar el primero...
 
+-Para el deployment se utilizó Google Cloud Run, se probaron varios metodos para el deploy. Finalmente se decidio por usar una imagen desde docker.io y tratar de hacer deploy con ella en Google.
+
