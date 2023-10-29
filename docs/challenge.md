@@ -8,3 +8,6 @@
 
 -Para el deployment se utilizó Google Cloud Run, se probaron varios metodos para el deploy. Finalmente se decidio por usar una imagen desde docker.io y tratar de hacer deploy con ella en Google.
 
+-Se tiene el error: The user-provided container failed to start and listen on the port defined provided by the PORT=5200 environment variable. Logs for this revision might contain more information. 
+
+-Se probo localmente el dockerfile y funcionó correctamente, asumo que alguna configuración habra faltado. Dado esto se deja link vacio a la api.
